@@ -13,9 +13,8 @@ Prerequisites
 Usage
 -----
 
-1. Save the script as `run_checks.sh`.
-2. Modify the `EFS_MOUNT` variable in the script to specify the location of the EFS mount point.
-3. Run the script using the following command:
+1. Modify the `EFS_MOUNT` variable in the script to specify the location of the EFS mount point.
+2. Run the script using the following command:
 
 ```
 ./run_checks.sh
