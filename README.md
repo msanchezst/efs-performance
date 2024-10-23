@@ -1,7 +1,7 @@
 EFS Performance Test Script
 ==========================
 
-This script is designed to test the performance of an EFS mount point using the `fio` I/O benchmarking tool and `ioping` for latency measurement. It runs a series of tests with different block sizes, I/O patterns, write modes, and I/O engines, and generates a set of output files that can be used to analyze the results.
+This script is designed to test the performance of an EFS mount point using the [fio](https://github.com/axboe/fio) I/O benchmarking tool  and [ioping](https://github.com/koct9i/ioping) for latency measurement. It runs a series of tests with different block sizes, I/O patterns, write modes, and I/O engines, and generates a set of output files that can be used to analyze the results.
 
 Prerequisites
 -------------
