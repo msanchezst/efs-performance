@@ -1,5 +1,22 @@
 #!/bin/bash
 
+# Function to shuffle an array
+shuffle_array() {
+  local array=("$@")
+  local shuffled=()
+  local rand_index
+  local size=${#array[@]}
+
+  while [ ${#array[@]} -gt 0 ]; do
+    rand_index=$((RANDOM % ${#array[@]}))
+    shuffled+=("${array[rand_index]}")
+    unset 'array[rand_index]'
+    array=("${array[@]}")
+  done
+
+  echo "${shuffled[@]}"
+}
+
 # Array of block sizes to test
 block_sizes=("4k" "1k" "512")
 
@@ -22,11 +39,17 @@ IOPING_PID=$!
 # Start the timer
 start_time=$(date +%s)
 
-# Loop through block sizes, I/O patterns, write modes, and I/O engines
-for bs in "${block_sizes[@]}"; do
-  for pattern in "${io_patterns[@]}"; do
-    for mode in "${write_modes[@]}"; do
-      for engine in "${io_engines[@]}"; do
+# Shuffle the arrays
+shuffled_block_sizes=($(shuffle_array "${block_sizes[@]}"))
+shuffled_io_patterns=($(shuffle_array "${io_patterns[@]}"))
+shuffled_write_modes=($(shuffle_array "${write_modes[@]}"))
+shuffled_io_engines=($(shuffle_array "${io_engines[@]}"))
+
+# Loop through shuffled block sizes, I/O patterns, write modes, and I/O engines
+for bs in "${shuffled_block_sizes[@]}"; do
+  for pattern in "${shuffled_io_patterns[@]}"; do
+    for mode in "${shuffled_write_modes[@]}"; do
+      for engine in "${shuffled_io_engines[@]}"; do
         echo "Running test with block size: $bs, I/O pattern: $pattern, write mode: $mode, I/O engine: $engine"
 
         fio --name=${pattern}_${bs}_${mode}_${engine} \
@@ -35,7 +58,7 @@ for bs in "${block_sizes[@]}"; do
             --bs=$bs \
             --numjobs=4 \
             --size=1G \
-            --runtime=120 \
+            --runtime=60 \
             --time_based \
             --group_reporting \
             --directory=$EFS_MOUNT \
@@ -43,6 +66,9 @@ for bs in "${block_sizes[@]}"; do
 
         echo "Test completed for block size: $bs, I/O pattern: $pattern, write mode: $mode, I/O engine: $engine"
         echo "----------------------------------------"
+
+        # Clean up the .0 files
+        rm -f rand*.0
       done
     done
   done
@@ -68,8 +94,4 @@ echo "Total time: $((total_time + kernel_create_time)) seconds" >> total_time.tx
 # Create a tar archive of all result output files
 tar -czf results.tar.gz fio_results_*.txt ioping_results.txt total_time.txt
 
-# Clean up the rand* files
-rm -f rand*.0
-
 echo "All tests completed. Results saved in results.tar.gz"
-
