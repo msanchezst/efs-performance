@@ -13,7 +13,7 @@ Prerequisites
 Usage
 -----
 
-1. Modify the `EFS_MOUNT` variable in the script to specify the location of the EFS mount point.
+1. (Optionally) Modify the `EFS_MOUNT` variable in the script to specify the location of the EFS mount point.
 2. Run the script using the following command:
 
 ```
@@ -31,7 +31,7 @@ The output files for each test will be saved in the current directory, with the 
 Analysis
 --------
 
-The output files can be analyzed using various tools, such as `fio_analyze` or `fio_postprocess`. The `fio_results_<pattern>_<bs>_<mode>_<engine>.txt` files contain detailed information about the I/O performance of the EFS mount point, including throughput, latency, and IOPS.
+The `fio_results_<pattern>_<bs>_<mode>_<engine>.txt` files contain detailed information about the I/O performance of the EFS mount point, including throughput, latency, and IOPS.
 
 The `ioping_results.txt` file contains the latency measurements for the EFS mount point, which can be used to analyze the responsiveness of the file system.
 
