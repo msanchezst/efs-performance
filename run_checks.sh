@@ -89,7 +89,6 @@ total_time=$((end_time - start_time))
 
 echo "Kernel creation time: $kernel_create_time seconds" > total_time.txt
 echo "Test execution time: $total_time seconds" >> total_time.txt
-echo "Total time: $((total_time + kernel_create_time)) seconds" >> total_time.txt
 
 # Create a tar archive of all result output files
 tar -czf results.tar.gz fio_results_*.txt ioping_results.txt total_time.txt
