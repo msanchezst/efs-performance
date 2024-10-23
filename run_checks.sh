@@ -27,7 +27,7 @@ io_patterns=("randread" "randwrite")
 write_modes=("read" "write" "rw")
 
 # Array of I/O engines
-io_engines=("libaio" "sync" "null")
+io_engines=("libaio" "sync")
 
 # EFS mount point
 EFS_MOUNT=.
